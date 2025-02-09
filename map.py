@@ -3,6 +3,7 @@ import numpy as np
 
 class Map:
     def __init__(self):
+        self.flags_positions=[]
         self.grid=self.generate_map()
 
     def generate_map(self):
@@ -18,6 +19,7 @@ class Map:
                         #flag
                         if i==3+base_cenetr and j==center_x:
                             grid[i][j]=2
+                            self.flags_positions.append((i,j))
                         #base field
                         else:
                             grid[i][j]=1
@@ -26,6 +28,7 @@ class Map:
                         #flag
                         if i==MapConfig.grid_y-3-base_cenetr and j==center_x:
                             grid[i][j]=-2
+                            self.flags_positions.append((i,j))
                         #base field
                         else:
                             grid[i][j]=-1
