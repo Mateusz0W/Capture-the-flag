@@ -9,13 +9,18 @@ class MapConfig:
 
 @dataclass(frozen=True)
 class Colors:
-    GREY=(128, 128, 128)
+    LIGHT_GREY=(211, 211, 211)
     RED=(255,0,0)
-    LIGHT_RED=(255, 102, 102)
+    LIGHT_RED=(255, 77, 77)
     BLUE=(0,0,255)
-    LIGHT_BLUE=(173, 216, 230)
+    LIGHT_BLUE=(102, 204, 255)
 
 @dataclass(frozen=True)
 class WindowConfig:
     width=550
     height=550
+
+
+@dataclass(frozen=True)
+class GameConfig:
+    players_in_team=1
