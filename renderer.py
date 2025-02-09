@@ -14,11 +14,16 @@ class Renderer:
     def draw_map(self):
         for y in range(len(self.simulation.map.grid)):
             for x in range(len(self.simulation.map.grid[y])):
-                color=Colors.GREY
+                color=Colors.LIGHT_GREY
                 if self.simulation.map.grid[y][x]==1:
                     color=Colors.LIGHT_BLUE
+                elif self.simulation.map.grid[y][x]== 3:
+                    color=Colors.BLUE
                 elif self.simulation.map.grid[y][x]==-1:
                     color=Colors.LIGHT_RED
+                elif self.simulation.map.grid[y][x]==-3:
+                    color=Colors.RED
+                
                 pygame.draw.rect(
                     self.screen,
                     color,
