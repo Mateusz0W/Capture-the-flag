@@ -33,6 +33,7 @@ class Renderer:
     def render(self):
         while True:
             self.draw_map()
+            self.simulation.run()
             pygame.display.flip()
             self.clock.tick(60)
 
