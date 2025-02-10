@@ -23,6 +23,8 @@ class Renderer:
                     color=Colors.LIGHT_RED
                 elif self.simulation.map.grid[y][x]==-3:
                     color=Colors.RED
+                elif self.simulation.map.grid[y][x]==4:
+                    color=Colors.DARK_GREY
                 
                 pygame.draw.rect(
                     self.screen,
