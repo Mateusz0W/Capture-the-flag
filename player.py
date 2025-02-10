@@ -26,6 +26,23 @@ class Player:
             elif  map.grid[x][y]==-1 and self.team=='Red':
                 map.grid[x][y]=-3
                 return x,y
+            
+    def move(self,direction,map):
+        occupied_fields=[-3,3]
+        if direction == 'up':
+            if self.y-1>0 and map.grid[self.x][self.y-1] not in occupied_fields:
+                self.y-=1
+        elif direction =='down':
+            if self.y+1<MapConfig.grid_y and map.grid[self.x][self.y+1] not in occupied_fields:
+                self.y+=1
+        elif direction == 'left':
+            if self.x-1>0 and map.grid[self.x-1][self.y] not in occupied_fields:
+                self.x-=1
+        elif direction == 'right':
+            if self.x+1<MapConfig.grid_x and map.grid[self.x+1][self.y] not in occupied_fields:
+                self.x+=1
+
+
                 
             
             
