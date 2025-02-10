@@ -13,9 +13,15 @@ class Simulation:
         ]     
     
     def next_step(self):
-        movement=['up','down','left','right','None']
+        actions=['move','build']
+        weights=[0.9,0.1]
+        direction=['up','down','left','right','None']
         for player in self.players:
-            player.move(random.choice(movement),self.map)
+            action=random.choices(actions,weights,k=1)[0]
+            if action == 'build':
+                player.build(random.choice(direction),self.map)
+            else:
+                player.move(random.choice(direction),self.map)
 
     def run(self):
         self.next_step()
