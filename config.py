@@ -9,6 +9,7 @@ class MapConfig:
 
 @dataclass(frozen=True)
 class Colors:
+    DARK_GREY=(64, 64, 64)
     LIGHT_GREY=(211, 211, 211)
     RED=(255,0,0)
     LIGHT_RED=(255, 77, 77)
