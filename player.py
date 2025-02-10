@@ -28,22 +28,33 @@ class Player:
                 return x,y
             
     def move(self,direction,map):
-        occupied_fields=[-3,3]
+        occupied_fields=[-3,3,4]
         if direction == 'up':
-            if self.y-1>0 and map.grid[self.x][self.y-1] not in occupied_fields:
+            if self.y-1>=0 and map.grid[self.x][self.y-1] not in occupied_fields:
                 self.y-=1
         elif direction =='down':
             if self.y+1<MapConfig.grid_y and map.grid[self.x][self.y+1] not in occupied_fields:
                 self.y+=1
         elif direction == 'left':
-            if self.x-1>0 and map.grid[self.x-1][self.y] not in occupied_fields:
+            if self.x-1>=0 and map.grid[self.x-1][self.y] not in occupied_fields:
                 self.x-=1
         elif direction == 'right':
             if self.x+1<MapConfig.grid_x and map.grid[self.x+1][self.y] not in occupied_fields:
                 self.x+=1
 
+    def build(self,direction,map):
+        occupied_fields=[-2,2-3,3,4]
+        if direction == 'up':
+            if self.y-1>=0 and map.grid[self.x][self.y-1] not in occupied_fields:
+                map.init_grid_state[self.x][self.y-1]=4
+        elif direction =='down':
+            if self.y+1<MapConfig.grid_y and map.grid[self.x][self.y+1] not in occupied_fields:
+                map.init_grid_state[self.x][self.y+1]=4
+        elif direction == 'left':
+            if self.x-1>=0 and map.grid[self.x-1][self.y] not in occupied_fields:
+                map.init_grid_state[self.x-1][self.y]=4
+        elif direction == 'right':
+            if self.x+1<MapConfig.grid_x and map.grid[self.x+1][self.y] not in occupied_fields:
+                map.init_grid_state[self.x+1][self.y]=4
 
-                
-            
-            
 
