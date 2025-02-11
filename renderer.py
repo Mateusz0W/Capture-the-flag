@@ -30,6 +30,10 @@ class Renderer:
                     color=Colors.RED
                 elif self.simulation.map.grid[y][x]==4:
                     color=Colors.DARK_GREY
+                elif self.simulation.map.grid[y][x]==6:
+                    color=Colors.PURPLE
+                elif self.simulation.map.grid[y][x]==-6:
+                    color=Colors.ORANGE
                 
                 pygame.draw.rect(
                     self.screen,
