@@ -37,14 +37,20 @@ class Map:
         self.grid=self.init_grid_state.copy()
         for player in players:
             if player.team =='Blue':
-                self.grid[player.x][player.y]=3
+                if player.has_a_flag:
+                    self.grid[player.x][player.y]=6
+                else:
+                    self.grid[player.x][player.y]=3
             else:
-                self.grid[player.x][player.y]=-3
+                if player.has_a_flag:
+                    self.grid[player.x][player.y]=-6
+                else:
+                    self.grid[player.x][player.y]=-3
         
         for flag in flags:
-            if flag.team =='Blue':
+            if flag.team =='Blue' and not flag.captured:
                 self.grid[flag.x][flag.y]= 2
-            else:
+            elif flag.team =='Red' and not flag.captured:
                 self.grid[flag.x][flag.y]= -2
 
                 
