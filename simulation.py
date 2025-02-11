@@ -12,11 +12,11 @@ class Simulation:
             for color in ('Blue','Red')
             for _ in range(GameConfig.players_in_team)
         ]
-        self.flags=[Flag(position,'Blue' if index else 'Red' ) for index,position in enumerate(self.map.flags_positions)]     
+        self.flags=[Flag(position,'Blue' if not index else 'Red' ) for index,position in enumerate(self.map.flags_positions)]     
     
     def next_step(self):
         actions=['move','build']
-        weights=[0.9,0.1]
+        weights=[.9,.1]
         direction=['up','down','left','right','None']
         for player in self.players:
             action=random.choices(actions,weights,k=1)[0]
@@ -24,6 +24,11 @@ class Simulation:
                 player.build(random.choice(direction),self.map)
             else:
                 player.move(random.choice(direction),self.map)
+
+            player.captured_the_flag(self.flags)
+
+        for flag in self.flags:
+            flag.update()
 
     def run(self):
         self.next_step()
