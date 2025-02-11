@@ -33,12 +33,19 @@ class Map:
         
         return grid
     
-    def update(self,players):
+    def update(self,players,flags):
         self.grid=self.init_grid_state.copy()
         for player in players:
             if player.team =='Blue':
                 self.grid[player.x][player.y]=3
             else:
                 self.grid[player.x][player.y]=-3
+        
+        for flag in flags:
+            if flag.team =='Blue':
+                self.grid[flag.x][flag.y]= 2
+            else:
+                self.grid[flag.x][flag.y]= -2
+
                 
         

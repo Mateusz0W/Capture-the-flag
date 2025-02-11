@@ -11,6 +11,11 @@ class Renderer:
         self.clock = pygame.time.Clock()
         self.simulation=simulation
 
+        self.blue_flag = pygame.image.load("blue_flag.png")
+        self.blue_flag=pygame.transform.scale(self.blue_flag, (MapConfig.cell_size, MapConfig.cell_size))
+        self.red_flag = pygame.image.load("red_flag.png")
+        self.red_flag=pygame.transform.scale(self.red_flag, (MapConfig.cell_size, MapConfig.cell_size))
+
     def draw_map(self):
         for y in range(len(self.simulation.map.grid)):
             for x in range(len(self.simulation.map.grid[y])):
@@ -31,6 +36,12 @@ class Renderer:
                     color,
                     pygame.Rect(x * MapConfig.cell_size, y * MapConfig.cell_size, MapConfig.cell_size, MapConfig.cell_size)
                 )
+
+                if self.simulation.map.grid[y][x] == 2:
+                    self.screen.blit(self.blue_flag, (x * MapConfig.cell_size, y * MapConfig.cell_size))
+                elif self.simulation.map.grid[y][x] == -2:
+                    self.screen.blit(self.red_flag, (x * MapConfig.cell_size, y * MapConfig.cell_size))
+                
 
     def render(self):
         while True:
