@@ -15,6 +15,8 @@ class Colors:
     LIGHT_RED=(255, 77, 77)
     BLUE=(0,0,255)
     LIGHT_BLUE=(102, 204, 255)
+    ORANGE=(255, 165, 0)
+    PURPLE=(128, 0, 128)
 
 @dataclass(frozen=True)
 class WindowConfig:
