@@ -16,6 +16,8 @@ class Renderer:
         self.red_flag = pygame.image.load("red_flag.png")
         self.red_flag=pygame.transform.scale(self.red_flag, (MapConfig.cell_size, MapConfig.cell_size))
 
+        self.font=pygame.font.Font(None, 50)
+
     def draw_map(self):
         for y in range(len(self.simulation.map.grid)):
             for x in range(len(self.simulation.map.grid[y])):
@@ -47,11 +49,18 @@ class Renderer:
                     self.screen.blit(self.red_flag, (x * MapConfig.cell_size, y * MapConfig.cell_size))
                 
 
+    def display_result(self):
+        pygame.draw.rect(self.screen,Colors.BLACK, (0, 550, WindowConfig.width, 50)) #refreshing result
+        result = self.font.render(f"Blue {self.simulation.teams_points['Blue']} - {self.simulation.teams_points['Red']} Red",True,Colors.WHITE)
+        position=result.get_rect(center=(WindowConfig.width//2,575))
+        self.screen.blit(result,position)
+        pygame.display.update()
+
     def render(self):
         while True:
             self.draw_map()
+            self.display_result()
             self.simulation.run()
-            pygame.display.flip()
             self.clock.tick(60)
 
             for event in pygame.event.get():
