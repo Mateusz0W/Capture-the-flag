@@ -28,7 +28,7 @@ class Simulation:
             if action == 'build':
                player.build(direction,self.map)
             else:
-               player.move(random.choice(direction),self.map)
+               player.move(direction,self.map)
         
             player.captured_the_flag(self.flags)
 
