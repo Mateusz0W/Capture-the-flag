@@ -1,5 +1,6 @@
 import random
 from config import MapConfig
+from collections import deque
 
 class Player:
     def __init__(self,team,map):
@@ -7,6 +8,7 @@ class Player:
         self.x,self.y=self.set_starting_position(map)
         self.has_a_flag=False
         self.flag=None
+        self.last_distances_to_flag=deque(maxlen=5)
 
     def set_starting_position(self,map):
         index = 0 if self.team == 'Blue' else 1
@@ -78,5 +80,6 @@ class Player:
     def reset(self,map):
         self.x , self.y =   self.set_starting_position(map)
         self.has_a_flag=False
+        self.last_distances_to_flag.clear()
 
 
