@@ -8,7 +8,7 @@ class Map:
         self.init_grid_state=self.grid.copy()
 
     def generate_map(self):
-        grid = np.zeros((MapConfig.grid_y, MapConfig.grid_x), dtype=int)
+        grid = np.zeros((MapConfig.grid_y, MapConfig.grid_x), dtype=np.float32)
         center_x=MapConfig.grid_x//2
         base_cenetr=MapConfig.base_size//2
 
