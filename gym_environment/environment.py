@@ -12,18 +12,21 @@ class Environment(gym.Env):
         self.simulation=Simulation()
         self.renderer=Renderer(self.simulation)
 
-        self.observation_space=Box(low=-6, high=6,shape=(MapConfig.grid_y,MapConfig.grid_x),dtype=np.int32)
+        self.observation_space=Box(low=-6, high=6,shape=(MapConfig.grid_y*MapConfig.grid_x,),dtype=np.float32)
         
         # move : up, down, left, right
         # build : up, down, left, right
         # do_nothing
-        self.action_space = Discrete(9)
+        self.action_space = Discrete(8)
 
         assert render_mode is None or render_mode in self.metadata["render_modes"]
         self.render_mode = render_mode
 
+        self.current_step=0
+        self.max_steps=400
+
     def __get_obs(self):
-        return self.simulation.map.grid
+        return self.simulation.map.grid.flatten()
     
     def __get_info(self):
         # returns flag locations
@@ -38,6 +41,7 @@ class Environment(gym.Env):
         self.simulation.reset()
         observation = self.__get_obs()
         info = self.__get_info()
+        self.current_step=0
         
         return observation, info
     
@@ -62,9 +66,10 @@ class Environment(gym.Env):
             return "do nothing", "do nothing"
         
     def step(self,action):
+        self.current_step += 1
         action, direction = self.__map_actions(action)
-        self.simulation.run(action,direction)
-        done = self.simulation.game_over
+        self.simulation.run(action,direction,'Red')
+        done = self.simulation.game_over or (self.current_step >= self.max_steps)
         reward = self.simulation.reward('Red')
         observation = self.__get_obs()
         info = self.__get_info()
