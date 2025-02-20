@@ -1,6 +1,10 @@
+import os
 import pygame
 from config import Colors, WindowConfig, MapConfig
 from core.simulation import Simulation
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+ASSETS_PATH = os.path.join(BASE_DIR, "..", "assets")
 
 class Renderer:
     def __init__(self,simulation : Simulation):
@@ -11,9 +15,9 @@ class Renderer:
         self.clock = pygame.time.Clock()
         self.simulation=simulation
 
-        self.blue_flag = pygame.image.load("assets/blue_flag.png")
+        self.blue_flag = pygame.image.load(os.path.join(ASSETS_PATH, "blue_flag.png"))
         self.blue_flag=pygame.transform.scale(self.blue_flag, (MapConfig.cell_size, MapConfig.cell_size))
-        self.red_flag = pygame.image.load("assets/red_flag.png")
+        self.red_flag = pygame.image.load(os.path.join(ASSETS_PATH, "red_flag.png"))
         self.red_flag=pygame.transform.scale(self.red_flag, (MapConfig.cell_size, MapConfig.cell_size))
 
         self.font=pygame.font.Font(None, 50)
@@ -57,15 +61,31 @@ class Renderer:
         pygame.display.update()
 
     def render(self):
+        reward=0
         while True:
-            self.draw_map()
-            self.display_result()
-            self.simulation.run()
-            self.clock.tick(60)
-
+            
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
+            
+            keys = pygame.key.get_pressed()
+            action ='move'
+            direction='do_nothing'
+            if keys[pygame.K_UP]:
+                direction ='up'
+            elif keys[pygame.K_DOWN]:
+                direction ='down'
+            elif keys[pygame.K_LEFT]:
+                direction ='left'
+            elif keys[pygame.K_RIGHT]:
+                direction ='right'
+
+            self.draw_map()
+            self.display_result()
+            self.simulation.run(action,direction,'Red')
+            reward+=self.simulation.reward('Red')
+            #print(self.simulation.reward('Red'))
+            self.clock.tick(60)
 
     def render_frame(self):
         self.draw_map()
