@@ -28,7 +28,7 @@ class WindowConfig:
 
 @dataclass(frozen=True)
 class GameConfig:
-    players_in_team=1
+    players_in_team=4
 
 @dataclass(frozen=True)
 class MLConfig:
