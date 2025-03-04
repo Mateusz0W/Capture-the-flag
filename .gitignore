@@ -3,3 +3,4 @@ test*
 models/
 plots/
 runs/
+*.dat
