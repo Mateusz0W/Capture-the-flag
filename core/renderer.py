@@ -71,6 +71,7 @@ class Renderer:
             keys = pygame.key.get_pressed()
             action ='move'
             direction='do_nothing'
+            idx=0
             if keys[pygame.K_UP]:
                 direction ='up'
             elif keys[pygame.K_DOWN]:
@@ -80,11 +81,19 @@ class Renderer:
             elif keys[pygame.K_RIGHT]:
                 direction ='right'
 
+            if keys[pygame.K_1]:
+                idx=1
+            elif keys[pygame.K_2]:
+                idx =2
+            elif keys[pygame.K_3]:
+                idx= 3
+            
+
             self.draw_map()
             self.display_result()
-            self.simulation.run(action,direction,'Red')
-            reward+=self.simulation.reward('Red')
-            #print(self.simulation.reward('Red'))
+            self.simulation.run(action,direction,'Red',idx)
+            #reward+=self.simulation.reward('Red')
+            print(self.simulation.reward('Red',idx))
             self.clock.tick(60)
 
     def render_frame(self):
