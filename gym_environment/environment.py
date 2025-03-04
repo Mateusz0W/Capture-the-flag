@@ -1,7 +1,7 @@
 import gym
 from gym.spaces import Discrete, Box
 import numpy as np
-from config import MapConfig
+from config import MapConfig, GameConfig
 from core.simulation import Simulation
 from core.renderer import Renderer
 
@@ -16,7 +16,6 @@ class Environment(gym.Env):
         
         # move : up, down, left, right
         # build : up, down, left, right
-        # do_nothing
         self.action_space = Discrete(8)
 
         assert render_mode is None or render_mode in self.metadata["render_modes"]
@@ -24,6 +23,8 @@ class Environment(gym.Env):
 
         self.current_step=0
         self.max_steps=400
+
+        self.player_index=0
 
     def __get_obs(self):
         return self.simulation.map.grid.flatten()
@@ -66,13 +67,17 @@ class Environment(gym.Env):
             return "do nothing", "do nothing"
         
     def step(self,action):
+        if self.player_index >= GameConfig.players_in_team:
+            self.player_index=0
         self.current_step += 1
         action, direction = self.__map_actions(action)
-        self.simulation.run(action,direction,'Red')
+        self.simulation.run(action,direction,'Red',self.player_index)
         done = self.simulation.game_over or (self.current_step >= self.max_steps)
-        reward = self.simulation.reward('Red')
+        reward = self.simulation.reward('Red',self.player_index)
         observation = self.__get_obs()
         info = self.__get_info()
+
+        self.player_index +=1
 
         if self.render_mode == 'human':
             self.renderer.render_frame()
