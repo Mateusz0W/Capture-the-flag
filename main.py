@@ -10,7 +10,7 @@ if __name__=="__main__":
     
     device = torch.device("cpu")
     net =DQN(env.observation_space.shape[0],env.action_space.n).to(device)
-    net.load_state_dict(torch.load("machine_learning/models/Capture-the-flag-best_-102.dat",map_location=device))
+    net.load_state_dict(torch.load("machine_learning/models/Best_model.dat",map_location=device))
     print('Model loaded')
     net.eval()
 
