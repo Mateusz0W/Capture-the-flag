@@ -15,7 +15,7 @@ import sys
 import os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from dqn_model import DQN
-from config import MLConfig
+from config import MLConfig, GameConfig
 import gym_environment
 
 def plot(rewards,frames):
@@ -56,7 +56,6 @@ class Agent:
     @torch.no_grad()
     def play_step(self,net,epsilon=0.0,device="cpu"):
         done_reward=None
-
         if np.random.random() < epsilon:
             action =self.env.action_space.sample()
         else:
@@ -103,7 +102,7 @@ if __name__ == "__main__":
     writer= SummaryWriter(comment=env_name)
     print(net)
     buffer=ReplayBuffer(MLConfig.REPLAY_SIZE)
-    agent=Agent(env,buffer)
+    agents=[Agent(env,buffer) for _ in range(GameConfig.players_in_team)]
     epsilon=MLConfig.EPSILON_START
     optimizer = optim.Adam(net.parameters(), lr=MLConfig.LEARNING_RATE)
     total_rewards = []
@@ -115,7 +114,14 @@ if __name__ == "__main__":
     while True:
         frame_idx+=1
         epsilon=max(MLConfig.EPSILON_FINAL,MLConfig.EPSILON_START-frame_idx/MLConfig.EPSILON_DECAY_LAST_FRAME)
-        reward=agent.play_step(net,epsilon,device)
+        rewards = []
+        for agent in agents:
+            reward = agent.play_step(net, epsilon, device)
+            rewards.append(reward)
+        if any(reward is not None for reward in rewards):
+            reward = list(filter(lambda r: r is not None,rewards))[0]
+        else:
+            reward=None
         if reward is not None:
             frames.append(frame_idx)
             total_rewards.append(reward)
